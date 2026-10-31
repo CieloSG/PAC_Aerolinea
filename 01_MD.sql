@@ -18,9 +18,9 @@ EXEC sp_executesql @SQL;
 -- INICIO -------------------------------------------------------------------------------------------------------
 /*********************************************************************************************
 -- Tabla: dbo.Paises
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los países registrados en el sistema AeroSky.
+-- DescripciÃ³n: Almacena los paÃ­ses registrados en el sistema AeroSky.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'Paises'
@@ -37,20 +37,26 @@ CREATE TABLE dbo.Paises (
 
     CONSTRAINT PK_Paises PRIMARY KEY (PaisID),
     CONSTRAINT UQ_Paises_CodigoPais UNIQUE (CodigoPais),
-    CONSTRAINT UQ_Paises_NombrePais UNIQUE (NombrePais)
+    CONSTRAINT UQ_Paises_NombrePais UNIQUE (NombrePais),
+
+	CONSTRAINT CK_Paises_Codigo
+	CHECK (
+		LEN(CodigoPais) = 2
+		AND CodigoPais NOT LIKE '%[^A-Z]%'
+)
 );
 GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Almacena los países registrados en el sistema AeroSky.',
+    @value = N'Almacena los paÃ­ses registrados en el sistema AeroSky.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Paises';
 GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del país.',
+    @value = N'Identificador Ãºnico del paÃ­s.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Paises',
     @level2type = N'COLUMN', @level2name = 'PaisID';
@@ -58,7 +64,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Código de dos caracteres que identifica al país.',
+    @value = N'CÃ³digo de dos caracteres que identifica al paÃ­s.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Paises',
     @level2type = N'COLUMN', @level2name = 'CodigoPais';
@@ -66,7 +72,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Nombre del país.',
+    @value = N'Nombre del paÃ­s.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Paises',
     @level2type = N'COLUMN', @level2name = 'NombrePais';
@@ -75,9 +81,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.Generos
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los géneros disponibles para el registro de personas.
+-- DescripciÃ³n: Almacena los gÃ©neros disponibles para el registro de personas.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'Generos'
@@ -98,14 +104,14 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Almacena los géneros disponibles para el registro de personas.',
+    @value = N'Almacena los gÃ©neros disponibles para el registro de personas.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Generos';
 GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del género.',
+    @value = N'Identificador Ãºnico del gÃ©nero.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Generos',
     @level2type = N'COLUMN', @level2name = 'GeneroID';
@@ -113,7 +119,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Descripción del género.',
+    @value = N'DescripciÃ³n del gÃ©nero.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Generos',
     @level2type = N'COLUMN', @level2name = 'Descripcion';
@@ -122,9 +128,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.TiposDocumento
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los tipos de documento aceptados por AeroSky.
+-- DescripciÃ³n: Almacena los tipos de documento aceptados por AeroSky.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'TiposDocumento'
@@ -152,7 +158,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del tipo de documento.',
+    @value = N'Identificador Ãºnico del tipo de documento.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'TiposDocumento',
     @level2type = N'COLUMN', @level2name = 'TipoDocumentoID';
@@ -169,9 +175,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.EstadosCliente
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los estados posibles de los clientes registrados.
+-- DescripciÃ³n: Almacena los estados posibles de los clientes registrados.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'EstadosCliente'
@@ -199,7 +205,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del estado del cliente.',
+    @value = N'Identificador Ãºnico del estado del cliente.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EstadosCliente',
     @level2type = N'COLUMN', @level2name = 'EstadoClienteID';
@@ -207,7 +213,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Descripción del estado del cliente.',
+    @value = N'DescripciÃ³n del estado del cliente.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EstadosCliente',
     @level2type = N'COLUMN', @level2name = 'Descripcion';
@@ -216,9 +222,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.Cargos
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los cargos laborales disponibles para los empleados.
+-- DescripciÃ³n: Almacena los cargos laborales disponibles para los empleados.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'Cargos'
@@ -246,7 +252,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del cargo.',
+    @value = N'Identificador Ãºnico del cargo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Cargos',
     @level2type = N'COLUMN', @level2name = 'CargoID';
@@ -263,9 +269,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.MetodosPago
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los métodos de pago aceptados por AeroSky.
+-- DescripciÃ³n: Almacena los mÃ©todos de pago aceptados por AeroSky.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'MetodosPago'
@@ -286,14 +292,14 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Almacena los métodos de pago aceptados por AeroSky.',
+    @value = N'Almacena los mÃ©todos de pago aceptados por AeroSky.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'MetodosPago';
 GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del método de pago.',
+    @value = N'Identificador Ãºnico del mÃ©todo de pago.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'MetodosPago',
     @level2type = N'COLUMN', @level2name = 'MetodoPagoID';
@@ -301,7 +307,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Nombre del método de pago.',
+    @value = N'Nombre del mÃ©todo de pago.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'MetodosPago',
     @level2type = N'COLUMN', @level2name = 'NombreMetodo';
@@ -310,9 +316,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.Monedas
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena las monedas utilizadas para expresar precios y pagos.
+-- DescripciÃ³n: Almacena las monedas utilizadas para expresar precios y pagos.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'Monedas'
@@ -329,7 +335,13 @@ CREATE TABLE dbo.Monedas (
 
     CONSTRAINT PK_Monedas PRIMARY KEY (MonedaID),
     CONSTRAINT UQ_Monedas_CodigoMoneda UNIQUE (CodigoMoneda),
-    CONSTRAINT UQ_Monedas_NombreMoneda UNIQUE (NombreMoneda)
+    CONSTRAINT UQ_Monedas_NombreMoneda UNIQUE (NombreMoneda),
+
+	CONSTRAINT CK_Monedas_Codigo
+	CHECK (
+		LEN(CodigoMoneda) = 3
+		AND CodigoMoneda NOT LIKE '%[^A-Z]%'
+)
 );
 GO
 
@@ -342,7 +354,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único de la moneda.',
+    @value = N'Identificador Ãºnico de la moneda.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Monedas',
     @level2type = N'COLUMN', @level2name = 'MonedaID';
@@ -350,7 +362,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Código de tres caracteres que identifica la moneda.',
+    @value = N'CÃ³digo de tres caracteres que identifica la moneda.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Monedas',
     @level2type = N'COLUMN', @level2name = 'CodigoMoneda';
@@ -367,9 +379,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.EstadosVuelo
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los estados posibles de los vuelos.
+-- DescripciÃ³n: Almacena los estados posibles de los vuelos.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'EstadosVuelo'
@@ -397,7 +409,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del estado del vuelo.',
+    @value = N'Identificador Ãºnico del estado del vuelo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EstadosVuelo',
     @level2type = N'COLUMN', @level2name = 'EstadoVueloID';
@@ -405,7 +417,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Descripción del estado del vuelo.',
+    @value = N'DescripciÃ³n del estado del vuelo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EstadosVuelo',
     @level2type = N'COLUMN', @level2name = 'Descripcion';
@@ -414,9 +426,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.EstadosTiquete
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los estados posibles de los tiquetes.
+-- DescripciÃ³n: Almacena los estados posibles de los tiquetes.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'EstadosTiquete'
@@ -444,7 +456,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del estado del tiquete.',
+    @value = N'Identificador Ãºnico del estado del tiquete.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EstadosTiquete',
     @level2type = N'COLUMN', @level2name = 'EstadoTiqueteID';
@@ -452,7 +464,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Descripción del estado del tiquete.',
+    @value = N'DescripciÃ³n del estado del tiquete.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EstadosTiquete',
     @level2type = N'COLUMN', @level2name = 'Descripcion';
@@ -461,9 +473,9 @@ GO
 
 /*********************************************************************************************
 -- Tabla: dbo.TiposEquipaje
--- Fecha de creación: 27/10/2026
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los tipos de equipaje que pueden registrarse en un tiquete.
+-- DescripciÃ³n: Almacena los tipos de equipaje que pueden registrarse en un tiquete.
 -- Control de Cambios:
 *********************************************************************************************/
 IF EXISTS (SELECT name FROM sys.tables WHERE name = 'TiposEquipaje'
@@ -491,7 +503,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único del tipo de equipaje.',
+    @value = N'Identificador Ãºnico del tipo de equipaje.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'TiposEquipaje',
     @level2type = N'COLUMN', @level2name = 'TipoEquipajeID';
@@ -510,16 +522,16 @@ GO
 
 /*==============================================================
   TABLAS OPERATIVAS DEL SISTEMA AEROSKY
-  Fecha de creación: 27/10/2026
+  Fecha de creaciÃ³n: 27/10/2026
   Autor: CIELO SOTOMAYOR
 ==============================================================*/
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Localizaciones.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Localizaciones.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los aeropuertos y localizaciones disponibles.
+-- DescripciÃ³n: Almacena los aeropuertos y localizaciones disponibles.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Localizaciones', 'U') IS NOT NULL
     DROP TABLE dbo.Localizaciones;
@@ -534,7 +546,12 @@ CREATE TABLE dbo.Localizaciones (
     CONSTRAINT PK_Localizaciones PRIMARY KEY (LocalizacionID),
     CONSTRAINT UQ_Localizaciones_Codigo UNIQUE (CodigoAeropuerto),
     CONSTRAINT FK_Localizaciones_Paises FOREIGN KEY (PaisID)
-        REFERENCES dbo.Paises(PaisID)
+        REFERENCES dbo.Paises(PaisID),
+	CONSTRAINT CK_Localizaciones_CodigoAeropuerto
+	CHECK (
+		LEN(CodigoAeropuerto) = 3
+		AND CodigoAeropuerto NOT LIKE '%[^A-Z]%'
+)
 );
 GO
 
@@ -547,7 +564,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Identificador único de la localización.',
+    @value = N'Identificador Ãºnico de la localizaciÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Localizaciones',
     @level2type = N'COLUMN', @level2name = 'LocalizacionID';
@@ -555,7 +572,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'País al que pertenece el aeropuerto.',
+    @value = N'PaÃ­s al que pertenece el aeropuerto.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Localizaciones',
     @level2type = N'COLUMN', @level2name = 'PaisID';
@@ -563,7 +580,7 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Código internacional de tres letras del aeropuerto.',
+    @value = N'CÃ³digo internacional de tres letras del aeropuerto.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Localizaciones',
     @level2type = N'COLUMN', @level2name = 'CodigoAeropuerto';
@@ -587,10 +604,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Clientes.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Clientes.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los datos de los pasajeros registrados.
+-- DescripciÃ³n: Almacena los datos de los pasajeros registrados.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Clientes', 'U') IS NOT NULL
     DROP TABLE dbo.Clientes;
@@ -619,7 +636,25 @@ CREATE TABLE dbo.Clientes (
     CONSTRAINT FK_Clientes_Generos FOREIGN KEY (GeneroID)
         REFERENCES dbo.Generos(GeneroID),
     CONSTRAINT FK_Clientes_Paises FOREIGN KEY (PaisID)
-        REFERENCES dbo.Paises(PaisID)
+        REFERENCES dbo.Paises(PaisID),
+
+
+	CONSTRAINT CK_Clientes_Nombres
+	CHECK (LEN(LTRIM(RTRIM(Nombres))) >= 2),
+
+	CONSTRAINT CK_Clientes_Apellidos
+	CHECK (LEN(LTRIM(RTRIM(Apellidos))) >= 2),
+
+	CONSTRAINT CK_Clientes_Correo
+	CHECK (Correo LIKE '%_@_%._%'),
+
+	CONSTRAINT CK_Clientes_FechaNacimiento
+	CHECK (FechaNacimiento <= CAST(GETDATE() AS DATE)),
+
+	CONSTRAINT CK_Clientes_Telefono
+	CHECK (
+		Telefono IS NULL
+		OR Telefono NOT LIKE '%[^0-9]%')
 );
 GO
 
@@ -631,7 +666,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del cliente.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del cliente.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Clientes',
     @level2type = N'COLUMN', @level2name = 'ClienteID';
@@ -652,21 +687,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Género declarado por el cliente, si corresponde.',
+    @name = N'MS_Description', @value = N'GÃ©nero declarado por el cliente, si corresponde.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Clientes',
     @level2type = N'COLUMN', @level2name = 'GeneroID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'País asociado al cliente.',
+    @name = N'MS_Description', @value = N'PaÃ­s asociado al cliente.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Clientes',
     @level2type = N'COLUMN', @level2name = 'PaisID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Número del documento de identidad.',
+    @name = N'MS_Description', @value = N'NÃºmero del documento de identidad.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Clientes',
     @level2type = N'COLUMN', @level2name = 'NumeroDocumento';
@@ -694,14 +729,14 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Correo electrónico del cliente.',
+    @name = N'MS_Description', @value = N'Correo electrÃ³nico del cliente.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Clientes',
     @level2type = N'COLUMN', @level2name = 'Correo';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Teléfono de contacto del cliente.',
+    @name = N'MS_Description', @value = N'TelÃ©fono de contacto del cliente.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Clientes',
     @level2type = N'COLUMN', @level2name = 'Telefono';
@@ -716,10 +751,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Empleados.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Empleados.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena la información del personal de AeroSky.
+-- DescripciÃ³n: Almacena la informaciÃ³n del personal de AeroSky.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Empleados', 'U') IS NOT NULL
     DROP TABLE dbo.Empleados;
@@ -745,19 +780,31 @@ CREATE TABLE dbo.Empleados (
     CONSTRAINT FK_Empleados_Cargos FOREIGN KEY (CargoID)
         REFERENCES dbo.Cargos(CargoID),
     CONSTRAINT FK_Empleados_Paises FOREIGN KEY (PaisID)
-        REFERENCES dbo.Paises(PaisID)
+        REFERENCES dbo.Paises(PaisID),
+
+	CONSTRAINT CK_Empleados_Correo
+	CHECK (Correo LIKE '%_@_%._%'),
+
+	CONSTRAINT CK_Empleados_FechaContratacion
+	CHECK (FechaContratacion <= CAST(GETDATE() AS DATE)),
+
+	CONSTRAINT CK_Empleados_Nombres
+	CHECK (LEN(LTRIM(RTRIM(Nombres))) >= 2),
+
+	CONSTRAINT CK_Empleados_Apellidos
+	CHECK (LEN(LTRIM(RTRIM(Apellidos))) >= 2)
 );
 GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Almacena la información del personal de AeroSky.',
+    @value = N'Almacena la informaciÃ³n del personal de AeroSky.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del empleado.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del empleado.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'EmpleadoID';
@@ -771,21 +818,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Cargo que desempeña el empleado.',
+    @name = N'MS_Description', @value = N'Cargo que desempeÃ±a el empleado.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'CargoID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'País asociado al empleado.',
+    @name = N'MS_Description', @value = N'PaÃ­s asociado al empleado.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'PaisID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Número del documento de identidad.',
+    @name = N'MS_Description', @value = N'NÃºmero del documento de identidad.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'NumeroDocumento';
@@ -806,21 +853,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Correo electrónico institucional o de contacto.',
+    @name = N'MS_Description', @value = N'Correo electrÃ³nico institucional o de contacto.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'Correo';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Teléfono de contacto del empleado.',
+    @name = N'MS_Description', @value = N'TelÃ©fono de contacto del empleado.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'Telefono';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Fecha de contratación del empleado.',
+    @name = N'MS_Description', @value = N'Fecha de contrataciÃ³n del empleado.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Empleados',
     @level2type = N'COLUMN', @level2name = 'FechaContratacion';
@@ -835,10 +882,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Rutas.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Rutas.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Define los trayectos disponibles entre aeropuertos.
+-- DescripciÃ³n: Define los trayectos disponibles entre aeropuertos.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Rutas', 'U') IS NOT NULL
     DROP TABLE dbo.Rutas;
@@ -869,7 +916,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único de la ruta.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico de la ruta.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Rutas',
     @level2type = N'COLUMN', @level2name = 'RutaID';
@@ -890,14 +937,14 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Código único de identificación de la ruta.',
+    @name = N'MS_Description', @value = N'CÃ³digo Ãºnico de identificaciÃ³n de la ruta.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Rutas',
     @level2type = N'COLUMN', @level2name = 'CodigoRuta';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Indica si la ruta está disponible para operar.',
+    @name = N'MS_Description', @value = N'Indica si la ruta estÃ¡ disponible para operar.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Rutas',
     @level2type = N'COLUMN', @level2name = 'Activa';
@@ -905,10 +952,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.HorariosRuta.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.HorariosRuta.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra los días y horarios planificados para cada ruta.
+-- DescripciÃ³n: Registra los dÃ­as y horarios planificados para cada ruta.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.HorariosRuta', 'U') IS NOT NULL
     DROP TABLE dbo.HorariosRuta;
@@ -931,13 +978,13 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Registra los días y horarios planificados para cada ruta.',
+    @value = N'Registra los dÃ­as y horarios planificados para cada ruta.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'HorariosRuta';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del horario de ruta.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del horario de ruta.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'HorariosRuta',
     @level2type = N'COLUMN', @level2name = 'HorarioRutaID';
@@ -951,7 +998,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Día de la semana: 1 a 7.',
+    @name = N'MS_Description', @value = N'DÃ­a de la semana: 1 a 7.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'HorariosRuta',
     @level2type = N'COLUMN', @level2name = 'DiaSemana';
@@ -965,7 +1012,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Duración planificada del trayecto en minutos.',
+    @name = N'MS_Description', @value = N'DuraciÃ³n planificada del trayecto en minutos.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'HorariosRuta',
     @level2type = N'COLUMN', @level2name = 'DuracionMinutos';
@@ -973,10 +1020,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Aviones.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Aviones.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Almacena los aviones disponibles en la flota.
+-- DescripciÃ³n: Almacena los aviones disponibles en la flota.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Aviones', 'U') IS NOT NULL
     DROP TABLE dbo.Aviones;
@@ -1003,42 +1050,42 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del avión.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Aviones',
     @level2type = N'COLUMN', @level2name = 'AvionID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Fabricante del avión.',
+    @name = N'MS_Description', @value = N'Fabricante del aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Aviones',
     @level2type = N'COLUMN', @level2name = 'Fabricante';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Modelo del avión.',
+    @name = N'MS_Description', @value = N'Modelo del aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Aviones',
     @level2type = N'COLUMN', @level2name = 'Modelo';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Matrícula única del avión.',
+    @name = N'MS_Description', @value = N'MatrÃ­cula Ãºnica del aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Aviones',
     @level2type = N'COLUMN', @level2name = 'Matricula';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Capacidad máxima de pasajeros del avión.',
+    @name = N'MS_Description', @value = N'Capacidad mÃ¡xima de pasajeros del aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Aviones',
     @level2type = N'COLUMN', @level2name = 'Capacidad';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Indica si el avión está disponible para operar.',
+    @name = N'MS_Description', @value = N'Indica si el aviÃ³n estÃ¡ disponible para operar.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Aviones',
     @level2type = N'COLUMN', @level2name = 'Activo';
@@ -1046,10 +1093,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Cabinas.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Cabinas.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Define las clases de cabina configuradas en cada avión.
+-- DescripciÃ³n: Define las clases de cabina configuradas en cada aviÃ³n.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Cabinas', 'U') IS NOT NULL
     DROP TABLE dbo.Cabinas;
@@ -1070,20 +1117,20 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Define las clases de cabina configuradas en cada avión.',
+    @value = N'Define las clases de cabina configuradas en cada aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Cabinas';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único de la cabina.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico de la cabina.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Cabinas',
     @level2type = N'COLUMN', @level2name = 'CabinaID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Avión al que pertenece la cabina.',
+    @name = N'MS_Description', @value = N'AviÃ³n al que pertenece la cabina.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Cabinas',
     @level2type = N'COLUMN', @level2name = 'AvionID';
@@ -1105,10 +1152,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Asientos.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Asientos.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra los asientos de cada cabina de avión.
+-- DescripciÃ³n: Registra los asientos de cada cabina de aviÃ³n.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Asientos', 'U') IS NOT NULL
     DROP TABLE dbo.Asientos;
@@ -1127,13 +1174,13 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Registra los asientos de cada cabina de avión.',
+    @value = N'Registra los asientos de cada cabina de aviÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Asientos';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del asiento.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del asiento.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Asientos',
     @level2type = N'COLUMN', @level2name = 'AsientoID';
@@ -1147,7 +1194,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Código o número del asiento.',
+    @name = N'MS_Description', @value = N'CÃ³digo o nÃºmero del asiento.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Asientos',
     @level2type = N'COLUMN', @level2name = 'NumeroAsiento';
@@ -1155,10 +1202,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Vuelos.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Vuelos.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra los vuelos programados y su ejecución.
+-- DescripciÃ³n: Registra los vuelos programados y su ejecuciÃ³n.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Vuelos', 'U') IS NOT NULL
     DROP TABLE dbo.Vuelos;
@@ -1186,13 +1233,13 @@ GO
 
 EXEC sys.sp_addextendedproperty
     @name = N'MS_Description',
-    @value = N'Registra los vuelos programados y su ejecución.',
+    @value = N'Registra los vuelos programados y su ejecuciÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Vuelos';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del vuelo.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del vuelo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Vuelos',
     @level2type = N'COLUMN', @level2name = 'VueloID';
@@ -1206,7 +1253,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Avión asignado al vuelo.',
+    @name = N'MS_Description', @value = N'AviÃ³n asignado al vuelo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Vuelos',
     @level2type = N'COLUMN', @level2name = 'AvionID';
@@ -1220,7 +1267,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Código comercial del vuelo.',
+    @name = N'MS_Description', @value = N'CÃ³digo comercial del vuelo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Vuelos',
     @level2type = N'COLUMN', @level2name = 'CodigoVuelo';
@@ -1242,10 +1289,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.PreciosRutaCabina.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.PreciosRutaCabina.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Define precios base por ruta, cabina y moneda.
+-- DescripciÃ³n: Define precios base por ruta, cabina y moneda.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.PreciosRutaCabina', 'U') IS NOT NULL
     DROP TABLE dbo.PreciosRutaCabina;
@@ -1322,7 +1369,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Última fecha de vigencia del precio, si aplica.',
+    @name = N'MS_Description', @value = N'Ãšltima fecha de vigencia del precio, si aplica.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'PreciosRutaCabina',
     @level2type = N'COLUMN', @level2name = 'FechaFin';
@@ -1330,10 +1377,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Descuentos.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Descuentos.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra los descuentos promocionales disponibles.
+-- DescripciÃ³n: Registra los descuentos promocionales disponibles.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Descuentos', 'U') IS NOT NULL
     DROP TABLE dbo.Descuentos;
@@ -1362,21 +1409,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del descuento.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del descuento.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Descuentos',
     @level2type = N'COLUMN', @level2name = 'DescuentoID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Código promocional del descuento.',
+    @name = N'MS_Description', @value = N'CÃ³digo promocional del descuento.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Descuentos',
     @level2type = N'COLUMN', @level2name = 'CodigoDescuento';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Descripción de la promoción.',
+    @name = N'MS_Description', @value = N'DescripciÃ³n de la promociÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Descuentos',
     @level2type = N'COLUMN', @level2name = 'Descripcion';
@@ -1390,21 +1437,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Fecha de inicio de la promoción.',
+    @name = N'MS_Description', @value = N'Fecha de inicio de la promociÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Descuentos',
     @level2type = N'COLUMN', @level2name = 'FechaInicio';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Fecha de finalización de la promoción.',
+    @name = N'MS_Description', @value = N'Fecha de finalizaciÃ³n de la promociÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Descuentos',
     @level2type = N'COLUMN', @level2name = 'FechaFin';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Indica si la promoción está activa.',
+    @name = N'MS_Description', @value = N'Indica si la promociÃ³n estÃ¡ activa.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Descuentos',
     @level2type = N'COLUMN', @level2name = 'Activo';
@@ -1412,10 +1459,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Tiquetes.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Tiquetes.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra los tiquetes emitidos para los pasajeros.
+-- DescripciÃ³n: Registra los tiquetes emitidos para los pasajeros.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Tiquetes', 'U') IS NOT NULL
     DROP TABLE dbo.Tiquetes;
@@ -1459,7 +1506,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del tiquete.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del tiquete.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Tiquetes',
     @level2type = N'COLUMN', @level2name = 'TiqueteID';
@@ -1494,21 +1541,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Número único del tiquete emitido.',
+    @name = N'MS_Description', @value = N'NÃºmero Ãºnico del tiquete emitido.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Tiquetes',
     @level2type = N'COLUMN', @level2name = 'NumeroTiquete';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Nombres del pasajero según el tiquete.',
+    @name = N'MS_Description', @value = N'Nombres del pasajero segÃºn el tiquete.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Tiquetes',
     @level2type = N'COLUMN', @level2name = 'NombrePasajero';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Apellidos del pasajero según el tiquete.',
+    @name = N'MS_Description', @value = N'Apellidos del pasajero segÃºn el tiquete.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Tiquetes',
     @level2type = N'COLUMN', @level2name = 'ApellidoPasajero';
@@ -1522,7 +1569,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Fecha y hora de emisión del tiquete.',
+    @name = N'MS_Description', @value = N'Fecha y hora de emisiÃ³n del tiquete.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Tiquetes',
     @level2type = N'COLUMN', @level2name = 'FechaEmision';
@@ -1544,10 +1591,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.TiqueteDescuento.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.TiqueteDescuento.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Relaciona los tiquetes con los descuentos aplicados.
+-- DescripciÃ³n: Relaciona los tiquetes con los descuentos aplicados.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.TiqueteDescuento', 'U') IS NOT NULL
     DROP TABLE dbo.TiqueteDescuento;
@@ -1579,7 +1626,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador de la relación entre tiquete y descuento.',
+    @name = N'MS_Description', @value = N'Identificador de la relaciÃ³n entre tiquete y descuento.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'TiqueteDescuento',
     @level2type = N'COLUMN', @level2name = 'TiqueteDescuentoID';
@@ -1615,10 +1662,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Pagos.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Pagos.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra los pagos realizados por los tiquetes.
+-- DescripciÃ³n: Registra los pagos realizados por los tiquetes.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Pagos', 'U') IS NOT NULL
     DROP TABLE dbo.Pagos;
@@ -1654,7 +1701,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del pago.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del pago.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Pagos',
     @level2type = N'COLUMN', @level2name = 'PagoID';
@@ -1668,21 +1715,21 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Método de pago utilizado.',
+    @name = N'MS_Description', @value = N'MÃ©todo de pago utilizado.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Pagos',
     @level2type = N'COLUMN', @level2name = 'MetodoPagoID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Moneda en la que se efectuó el pago.',
+    @name = N'MS_Description', @value = N'Moneda en la que se efectuÃ³ el pago.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Pagos',
     @level2type = N'COLUMN', @level2name = 'MonedaID';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Fecha y hora en que se registró el pago.',
+    @name = N'MS_Description', @value = N'Fecha y hora en que se registrÃ³ el pago.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Pagos',
     @level2type = N'COLUMN', @level2name = 'FechaPago';
@@ -1696,14 +1743,14 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Referencia externa de la transacción, si existe.',
+    @name = N'MS_Description', @value = N'Referencia externa de la transacciÃ³n, si existe.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Pagos',
     @level2type = N'COLUMN', @level2name = 'ReferenciaTransaccion';
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Estado actual de la transacción de pago.',
+    @name = N'MS_Description', @value = N'Estado actual de la transacciÃ³n de pago.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Pagos',
     @level2type = N'COLUMN', @level2name = 'EstadoPago';
@@ -1711,10 +1758,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.Equipaje.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.Equipaje.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Registra el equipaje asociado a cada tiquete.
+-- DescripciÃ³n: Registra el equipaje asociado a cada tiquete.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.Equipaje', 'U') IS NOT NULL
     DROP TABLE dbo.Equipaje;
@@ -1744,7 +1791,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único del registro de equipaje.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico del registro de equipaje.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'Equipaje',
     @level2type = N'COLUMN', @level2name = 'EquipajeID';
@@ -1780,10 +1827,10 @@ GO
 
 
 /*********************************************************************************************
--- Comentario: Creación de la tabla dbo.EmpleadoVuelo.
--- Fecha de creación: 27/10/2026
+-- Comentario: CreaciÃ³n de la tabla dbo.EmpleadoVuelo.
+-- Fecha de creaciÃ³n: 27/10/2026
 -- Autor: CIELO SOTOMAYOR
--- Descripción: Asigna empleados a los vuelos en los que prestan servicio.
+-- DescripciÃ³n: Asigna empleados a los vuelos en los que prestan servicio.
 *********************************************************************************************/
 IF OBJECT_ID('dbo.EmpleadoVuelo', 'U') IS NOT NULL
     DROP TABLE dbo.EmpleadoVuelo;
@@ -1811,7 +1858,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Identificador único de la asignación.',
+    @name = N'MS_Description', @value = N'Identificador Ãºnico de la asignaciÃ³n.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EmpleadoVuelo',
     @level2type = N'COLUMN', @level2name = 'EmpleadoVueloID';
@@ -1832,7 +1879,7 @@ EXEC sys.sp_addextendedproperty
 GO
 
 EXEC sys.sp_addextendedproperty
-    @name = N'MS_Description', @value = N'Función que cumple el empleado durante el vuelo.',
+    @name = N'MS_Description', @value = N'FunciÃ³n que cumple el empleado durante el vuelo.',
     @level0type = N'SCHEMA', @level0name = 'dbo',
     @level1type = N'TABLE', @level1name = 'EmpleadoVuelo',
     @level2type = N'COLUMN', @level2name = 'Funcion';
